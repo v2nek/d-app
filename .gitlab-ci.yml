@@ -1,0 +1,33 @@
+stages:
+  - build
+  - test
+  # - deploy
+
+Build app container:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - mkdir -p /kaniko/.docker
+    - echo ${DOCKER_AUTH_CONFIG} > /kaniko/.docker/config.json
+  script: |
+
+    /kaniko/executor \
+      --context "${CI_PROJECT_DIR}" \
+      --cache=true \
+      --dockerfile=fastify-postgres.dockerfile --destination=$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+
+Test app container:
+  stage: test
+  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  script:
+    - echo "look, ma, no tests!"
+# Deploy app container:
+#   stage: deploy
+#   image: dtzar/helm-kubectl
+#   script: |
+#     cd charts/
+#     helm upgrade --install -f values.yaml --set version=$CI_COMMIT_SHORT_SHA $CHART_NAME .
+#   only:
+#     - main
