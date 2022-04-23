@@ -23,11 +23,12 @@ Test app container:
   image: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
   script:
     - echo "look, ma, no tests!"
-# Deploy app container:
-#   stage: deploy
-#   image: dtzar/helm-kubectl
-#   script: |
-#     cd charts/
-#     helm upgrade --install -f values.yaml --set version=$CI_COMMIT_SHORT_SHA $CHART_NAME .
-#   only:
-#     - main
+
+Deploy app container:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  script: |
+    cd charts/
+    helm upgrade --install -f values.yaml --set version=$CI_COMMIT_SHORT_SHA charts .
+  only:
+    - master

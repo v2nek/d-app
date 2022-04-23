@@ -1,0 +1,22 @@
+{{- range .Values.web }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .name }}"
+  namespace: {{ $.Values.namespace }}
+  labels:
+    app.kubernetes.io/name: "{{ .name }}"
+    app.kubernetes.io/instance: "{{ $.Release.Name }}"
+spec:
+  selector:
+    app.kubernetes.io/name: "{{ .name }}"
+    app.kubernetes.io/instance: "{{ $.Release.Name }}"
+  type: ClusterIP
+  ports:
+    - port: {{ .port | default 8080 }}
+      targetPort: {{ .port | default 8080 }}
+      protocol: TCP
+      name: {{ .portName | default "http" }}
+{{- end -}}
+

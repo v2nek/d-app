@@ -1,0 +1,14 @@
+image: registry.gitlab.com/v2nek/deversifi-app
+version: d4ba1d12
+defaultSecretName: settings
+namespace: default
+
+web:
+  - name: deversifi-app
+    ingress: nginx
+    defaultBackend: true
+    port: 8080
+
+env:
+  RANDOM_NUMBER: 14 # i've checked, it is really a random number
+  DATABASE: postgres
