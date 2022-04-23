@@ -27,6 +27,8 @@ Test app container:
 Deploy app container:
   stage: deploy
   image: dtzar/helm-kubectl
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG_FILE
   script: |
     cd charts/
     helm upgrade --install -f values.yaml --set version=$CI_COMMIT_SHORT_SHA charts .
