@@ -16,11 +16,11 @@ Build app container:
     /kaniko/executor \
       --context "${CI_PROJECT_DIR}" \
       --cache=true \
-      --dockerfile=fastify-postgres.dockerfile --destination=$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+      --dockerfile=fastify-postgres.dockerfile --destination=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
 
 Test app container:
   stage: test
-  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
   script:
     - echo "look, ma, no tests!"
 # Deploy app container:
